@@ -21,11 +21,11 @@ export const Card: FC<Props> = ({ isOpen, children, className }) => {
             className
           )}
         >
-          <section className="min-h-[437px] max-h-[437px] overflow-auto">
-            {children}
-          </section>
+          <section>{children}</section>
         </div>
       )}
     </Fragment>
   );
 };
+
+// min-h-[537px] max-h-[537px] overflow-auto

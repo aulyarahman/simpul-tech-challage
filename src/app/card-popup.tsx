@@ -1,22 +1,29 @@
 "use client";
-import { useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { Card, RootCtx } from "@/components";
 import ListChat from "./list-chat";
-import { User } from "@/api";
 import DetailChat from "./detail-chat";
+
+interface ChatCtxProps {
+  roomId: string;
+  setRoomId: (id: string) => void;
+}
+
+export const ChatCtx = createContext<ChatCtxProps>({
+  roomId: "",
+  setRoomId: () => {},
+});
 
 const CardPopup = () => {
   const { typeShow } = useContext(RootCtx);
-  const [user, setUser] = useState<User | undefined>(undefined);
+  const [roomId, setRoomId] = useState("");
 
   return (
-    <Card isOpen={!!typeShow} className="">
-      {user ? (
-        <DetailChat />
-      ) : (
-        <ListChat onSelectect={(user) => setUser(user)} />
-      )}
-    </Card>
+    <ChatCtx.Provider value={{ roomId, setRoomId }}>
+      <Card isOpen={!!typeShow} className="">
+        {roomId ? <DetailChat /> : <ListChat />}
+      </Card>
+    </ChatCtx.Provider>
   );
 };
 

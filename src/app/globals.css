@@ -95,14 +95,15 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 2px;
+  width: 8px;
   height: 2px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #718096;
+  background-color: #4f4f4f;
+  border-radius: 28px;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #cbd5e0;
+  background-color: transparent;
 }

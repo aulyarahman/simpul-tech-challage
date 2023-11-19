@@ -1,35 +1,35 @@
 "use client";
-import { User } from "@/api";
-import { ItemMessage } from "@/components";
-import Input from "@/components/input";
+import { ItemMessage, InputSearch } from "@/components";
 import { useGetUser } from "@/hooks/use-get-user";
 import { formatDate } from "@/lib/format-time";
-import { FC } from "react";
+import { FC, useContext } from "react";
+import { ChatCtx } from "./card-popup";
 
-const ListChat: FC<{ onSelectect: (data: User) => void }> = ({
-  onSelectect,
-}) => {
+const ListChat: FC = () => {
   const { data, error, isPending } = useGetUser();
+  const { setRoomId } = useContext(ChatCtx);
 
   return (
-    <div>
+    <div className="">
       {isPending ? (
         <p className="text-center">Loading..</p>
       ) : error ? (
         <p>{error?.message}</p>
       ) : (
-        <section className="mt-4 space-y-4">
-          <Input />
-          {data?.map((it) => (
-            <ItemMessage
-              key={it.id}
-              date={formatDate(new Date().toISOString())}
-              message={it.first_name}
-              name={it.first_name + " " + it.last_name}
-              type={it.email}
-              oncLick={() => onSelectect(it)}
-            />
-          ))}
+        <section className="py-3 px-3">
+          <InputSearch className="mr-4" />
+          <section className="min-h-[465px] max-h-[465px] overflow-auto ">
+            {data?.map((it) => (
+              <ItemMessage
+                key={it.id}
+                date={formatDate(new Date().toISOString())}
+                message={it.first_name}
+                name={it.first_name + " " + it.last_name}
+                type={it.email}
+                oncLick={() => setRoomId(it.first_name)}
+              />
+            ))}
+          </section>
         </section>
       )}
     </div>

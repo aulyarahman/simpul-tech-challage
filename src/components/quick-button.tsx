@@ -31,7 +31,7 @@ export const QuickButton = () => {
       {typeShow && (
         <div className="flex space-x-3 inset-y-0 end-3 animate-in slide-in-from-left-14">
           <CardQuick
-            onClick={() => undefined}
+            onClick={() => setTypeShow(tpShow)}
             title={tpShow}
             icon={items[tpShow]}
           />
@@ -47,7 +47,6 @@ export const QuickButton = () => {
         >
           <ButtonIcon icon={Icon.ThunderIcon} color="primary" />
         </PopoverTrigger>
-
         <PopoverContent
           className={cn(
             "flex space-x-4 bg-transparent border-0 shadow-none w-fit",

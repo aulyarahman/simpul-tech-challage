@@ -1,6 +1,13 @@
 import { FC } from "react";
 import { Icon } from ".";
 import { cn } from "@/lib/utils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
 
 interface Props {
   name: string;
@@ -18,13 +25,16 @@ export const ItemMessage: FC<Props> = ({
   oncLick,
 }) => {
   return (
-    <section onClick={oncLick}>
-      <div className="flex space-x-7 mb-2 cursor-pointer hover:bg-gray-100 rounded-md hover:animate-in hover:fade-in-80">
+    <section className="mb-2">
+      <div
+        onClick={oncLick}
+        className="flex space-x-7 mb-5 cursor-pointer hover:bg-gray-100 rounded-md hover:animate-in hover:fade-in-80"
+      >
         <Icon.IconUsers />
         <div>
-          <section className="flex space-x-3 items-center">
-            <h3 className="font-semibold text-blue-primary">{type}</h3>
-            <p className="text-xs text-gray-900">{date}</p>
+          <section className="flex space-x-3">
+            <p className="font-semibold text-blue-primary">{type}</p>
+            <p className="text-xs font-semibold text-gray-900">{date}</p>
           </section>
           <p className="font-bold">{name} :</p>
           <p className="">
@@ -56,12 +66,14 @@ export const ItemChat: FC<ItemChatProps> = ({ message, time, name }) => {
       >
         {name ?? "You"}
       </p>
-      <section className={cn("flex w-full", !name && "justify-end")}>
-        {!name && (
-          <div className="w-7 h-7 cursor-pointer">
-            <Icon.DotIcon />
-          </div>
+      <section
+        className={cn(
+          "flex w-full",
+          !name && "justify-end",
+          name && "space-x-1"
         )}
+      >
+        {!name && <OnDots />}
         <section
           className={cn(
             "rounded-lg p-[10px] space-y-2",
@@ -71,12 +83,27 @@ export const ItemChat: FC<ItemChatProps> = ({ message, time, name }) => {
           <p className="text-gray-primary-300">{message}</p>
           <p className="text-gray-primary-300 text-xs">{time}</p>
         </section>
-        {name && (
-          <div className="w-7 h-7 cursor-pointer">
-            <Icon.DotIcon />
-          </div>
-        )}
+        {name && <OnDots />}
       </section>
     </div>
   );
 };
+
+const OnDots: FC<{ onClick?: () => void }> = ({ onClick }) => (
+  <DropdownMenu>
+    <DropdownMenuTrigger asChild>
+      <div className="h-5 w-5 cursor-pointer" onClick={onClick}>
+        <span className="sr-only">Open menu</span>
+        <MoreHorizontal className="h-4 w-4" />
+      </div>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent align="end">
+      <DropdownMenuItem>
+        <p className="text-blue-primary">Edit</p>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <p className="text-red-600">Delete</p>
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+);

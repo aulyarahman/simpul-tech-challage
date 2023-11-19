@@ -1,11 +1,13 @@
+import defaultTheme from "tailwindcss/defaultTheme";
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   theme: {
     container: {
@@ -15,16 +17,19 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      sans: ["Lato", ...defaultTheme.fontFamily.sans],
+    },
     extend: {
       colors: {
-        'blue-primary': "#2F80ED",
-        'gray-primary': "#E0E0E0",
-        'gray-primary-100': "#828282",
-        'gray-primary-300': "#4F4F4F",
-        'purple': '#8785FF',
-        'yellow': '#F8B76B',
-        'yellow-10': '#FCEED3',
-        'pink': '#EEDCFF',
+        "blue-primary": "#2F80ED",
+        "gray-primary": "#E0E0E0",
+        "gray-primary-100": "#828282",
+        "gray-primary-300": "#4F4F4F",
+        purple: "#8785FF",
+        yellow: "#F8B76B",
+        "yellow-10": "#FCEED3",
+        pink: "#EEDCFF",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -33,7 +38,6 @@ module.exports = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -82,4 +86,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};
