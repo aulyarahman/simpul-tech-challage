@@ -1,22 +1,36 @@
 import { ReqPaging, ResPaging } from "."
 import { req } from "./request"
 
-export interface Support {
-   url: string
-   text: string
-}
 
 export interface UserDetail {
-   dat: User
-   support: Support
+   id: string;
+   title: string;
+   firstName: string;
+   lastName: string;
+   picture: string;
+   gender: string;
+   email: string;
+   dateOfBirth: string;
+   phone: string;
+   location: Location;
+   registerDate: string;
+   updatedDate: string;
+}
+
+export interface Location {
+   street: string;
+   city: string;
+   state: string;
+   country: string;
+   timezone: string;
 }
 
 export interface User {
-   id: number,
-   email: string
-   first_name: string
-   last_name: string
-   avatar: string
+   id: string;
+   title: string;
+   firstName: string;
+   lastName: string;
+   picture: string;
 }
 
 class Api {
@@ -29,7 +43,7 @@ class Api {
       return Api.instance
    }
 
-   private path = '/users'
+   private path = '/user'
    find(r: ReqPaging): Promise<ResPaging<User>> {
       return req<ResPaging<User>>({
          method: 'GET',

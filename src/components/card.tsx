@@ -14,14 +14,14 @@ export const Card: FC<Props> = ({ isOpen, children, className }) => {
       {isOpen && (
         <div
           className={cn(
-            " bg-white rounded-md w-[534px] h-[537px]",
+            " bg-white rounded-md w-[734px] h-[737px]",
             isOpen
               ? "animate-in slide-in-from-bottom-10"
               : "animate-out slide-out-to-top-10",
             className
           )}
         >
-          <section>{children}</section>
+          <section className="px-[32px] py-[24px]">{children}</section>
         </div>
       )}
     </Fragment>

@@ -1,29 +1,47 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { Fragment, createContext, useContext, useState } from "react";
 import { Card, RootCtx } from "@/components";
-import ListChat from "./list-chat";
-import DetailChat from "./detail-chat";
+import ListMessage from "./_component/message/list-message";
+import DetailMessage from "./_component/message/detail-message";
+import ListTask from "./_component/task/list-task";
 
-interface ChatCtxProps {
+interface PopupeCtxProps {
   roomId: string;
   setRoomId: (id: string) => void;
+  onReplyMessage?: PropsReplyMessage;
+  setOnReplyMessage: (v?: PropsReplyMessage) => void;
 }
 
-export const ChatCtx = createContext<ChatCtxProps>({
+interface PropsReplyMessage {
+  authorMessage: string;
+  message: string;
+}
+
+export const PopupCtx = createContext<PopupeCtxProps>({
   roomId: "",
   setRoomId: () => {},
+  onReplyMessage: undefined,
+  setOnReplyMessage: () => undefined,
 });
 
 const CardPopup = () => {
   const { typeShow } = useContext(RootCtx);
   const [roomId, setRoomId] = useState("");
+  const [onReplyMessage, setOnReplyMessage] = useState<
+    PropsReplyMessage | undefined
+  >();
 
   return (
-    <ChatCtx.Provider value={{ roomId, setRoomId }}>
-      <Card isOpen={!!typeShow} className="">
-        {roomId ? <DetailChat /> : <ListChat />}
+    <PopupCtx.Provider
+      value={{ roomId, setRoomId, onReplyMessage, setOnReplyMessage }}
+    >
+      <Card isOpen={!!typeShow}>
+        {typeShow === "Inbox" && (
+          <Fragment>{roomId ? <DetailMessage /> : <ListMessage />}</Fragment>
+        )}
+        {typeShow === "Task" && <ListTask />}
       </Card>
-    </ChatCtx.Provider>
+    </PopupCtx.Provider>
   );
 };
 

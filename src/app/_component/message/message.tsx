@@ -1,13 +1,7 @@
-import { FC } from "react";
-import { Icon } from ".";
+import { FC, useContext } from "react";
+import { Icon, OnActions } from "@/components";
 import { cn } from "@/lib/utils";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
+import { PopupCtx } from "@/app/card-popup";
 
 interface Props {
   name: string;
@@ -28,13 +22,18 @@ export const ItemMessage: FC<Props> = ({
     <section className="mb-2">
       <div
         onClick={oncLick}
-        className="flex space-x-7 mb-5 cursor-pointer hover:bg-gray-100 rounded-md hover:animate-in hover:fade-in-80"
+        className="flex w-full space-x-7 mb-5 cursor-pointer hover:bg-gray-100 rounded-md hover:animate-in hover:fade-in-80"
       >
-        <Icon.IconUsers />
+        <div className="pt-1">
+          <Icon.IconUsers />
+        </div>
+
         <div>
           <section className="flex space-x-3">
-            <p className="font-semibold text-blue-primary">{type}</p>
-            <p className="text-xs font-semibold text-gray-900">{date}</p>
+            <p className="font-semibold text-lg leading-none text-blue-primary">
+              {type}
+            </p>
+            <p className="text-sm font-semibold text-gray-700">{date}</p>
           </section>
           <p className="font-bold">{name} :</p>
           <p className="">
@@ -53,9 +52,17 @@ interface ItemChatProps {
   message: string;
   time: string;
   name?: string;
+  onDelete?: () => void;
 }
 
-export const ItemChat: FC<ItemChatProps> = ({ message, time, name }) => {
+export const ItemChat: FC<ItemChatProps> = ({
+  message,
+  time,
+  name,
+  onDelete,
+}) => {
+  const { setOnReplyMessage } = useContext(PopupCtx);
+
   return (
     <div className="">
       <p
@@ -73,7 +80,13 @@ export const ItemChat: FC<ItemChatProps> = ({ message, time, name }) => {
           name && "space-x-1"
         )}
       >
-        {!name && <OnDots />}
+        {!name && (
+          <OnActions
+            onDelete={onDelete}
+            onEdit={() => undefined}
+            isOwn={true}
+          />
+        )}
         <section
           className={cn(
             "rounded-lg p-[10px] space-y-2",
@@ -83,27 +96,13 @@ export const ItemChat: FC<ItemChatProps> = ({ message, time, name }) => {
           <p className="text-gray-primary-300">{message}</p>
           <p className="text-gray-primary-300 text-xs">{time}</p>
         </section>
-        {name && <OnDots />}
+        {name && (
+          <OnActions
+            onDelete={() => setOnReplyMessage({ authorMessage: name, message })}
+            onEdit={() => undefined}
+          />
+        )}
       </section>
     </div>
   );
 };
-
-const OnDots: FC<{ onClick?: () => void }> = ({ onClick }) => (
-  <DropdownMenu>
-    <DropdownMenuTrigger asChild>
-      <div className="h-5 w-5 cursor-pointer" onClick={onClick}>
-        <span className="sr-only">Open menu</span>
-        <MoreHorizontal className="h-4 w-4" />
-      </div>
-    </DropdownMenuTrigger>
-    <DropdownMenuContent align="end">
-      <DropdownMenuItem>
-        <p className="text-blue-primary">Edit</p>
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <p className="text-red-600">Delete</p>
-      </DropdownMenuItem>
-    </DropdownMenuContent>
-  </DropdownMenu>
-);

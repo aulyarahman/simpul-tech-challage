@@ -10,7 +10,7 @@ export async function req<R>({
    path,
    body,
 }: Treq): Promise<R> {
-   const baseUrl = `${process.env.NEXT_PUBLIC_API_HOST}/api`
+   const baseUrl = `${process.env.NEXT_PUBLIC_API_HOST}/data/v1`
    try {
       const mReq = await fetch(baseUrl + path, {
          method,
@@ -21,6 +21,7 @@ export async function req<R>({
          headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
+            'app-id': `${process.env.NEXT_PUBLIC_APP_ID}`
          },
       })
       const data: R = await mReq.json()
