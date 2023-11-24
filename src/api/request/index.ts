@@ -10,6 +10,8 @@ export async function req<R>({
    path,
    body,
 }: Treq): Promise<R> {
+
+   // using api https://dummyapi.io
    const baseUrl = `${process.env.NEXT_PUBLIC_API_HOST}/data/v1`
    try {
       const mReq = await fetch(baseUrl + path, {
